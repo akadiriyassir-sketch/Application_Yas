@@ -1,29 +1,77 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Historique des Achats</h2>
+<div class="row">
+    <!-- Colonne Gauche : Formulaire -->
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                Nouvel Achat
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('ajouter') }}">
+                    <div class="mb-3">
+                        <label for="nom" class="form-label">Nom du produit</label>
+                        <input type="text" class="form-control" id="nom" name="nom" placeholder="Ex: Pomme" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prix" class="form-label">Montant (€)</label>
+                        <input type="number" step="0.01" class="form-control" id="prix" name="prix" placeholder="0.00" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categorie" class="form-label">Catégorie</label>
+                        <input type="text" class="form-control" id="categorie" name="categorie" placeholder="Ex: Fruits" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Enregistrer</button>
+                </form>
+            </div>
+        </div>
 
-{% if historique %}
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Prix</th>
-                <th>Catégorie</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for achat in historique %}
-            <tr>
-                <td>{{ achat.nom }}</td>
-                <td>{{ achat.prix }} €</td>
-                <td>{{ achat.categorie }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>Aucun achat enregistré pour le moment.</p>
-{% endif %}
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Analyse</h5>
+                <p class="card-text">Quel est le produit le plus acheté ?</p>
+                <form action="{{ url_for('top_produit') }}" method="POST">
+                    <button type="submit" class="btn btn-warning">Afficher le Top Produit</button>
+                </form>
+                {% if top_produit %}
+                    <div class="alert alert-warning mt-3" role="alert">
+                        <strong>Top Produit :</strong> {{ top_produit }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
+    <!-- Colonne Droite : Historique -->
+    <div class="col-md-8">
+        <h3>Historique des Achats</h3>
+        {% if historique %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prix</th>
+                            <th>Catégorie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for achat in historique %}
+                        <tr>
+                            <td>{{ achat.nom }}</td>
+                            <td>{{ achat.prix }} €</td>
+                            <td>{{ achat.categorie }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-secondary">
+                Aucun achat enregistré pour le moment. Utilisez le formulaire à gauche pour commencer !
+            </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
