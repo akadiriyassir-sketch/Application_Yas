@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Historique des Achats</h2>
+
+{% if historique %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Catégorie</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for achat in historique %}
+            <tr>
+                <td>{{ achat.nom }}</td>
+                <td>{{ achat.prix }} €</td>
+                <td>{{ achat.categorie }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Aucun achat enregistré pour le moment.</p>
+{% endif %}
+
+{% endblock %}

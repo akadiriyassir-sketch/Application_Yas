@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Statistiques</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Top Produit</h5>
+        {% if top_produit %}
+            <p class="card-text">Le produit le plus fréquemment acheté est : <strong>{{ top_produit }}</strong></p>
+        {% else %}
+            <p class="card-text">Pas assez de données pour déterminer le top produit.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
